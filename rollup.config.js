@@ -2,11 +2,8 @@
 const commonjs = require('@rollup/plugin-commonjs');
 const json = require('@rollup/plugin-json');
 const resolve = require('@rollup/plugin-node-resolve');
-const external = require('rollup-plugin-peer-deps-external');
-const postcss = require('rollup-plugin-postcss');
-const sourceMaps = require('rollup-plugin-sourcemaps');
-const { terser } = require('rollup-plugin-terser');
-const typescript = require('rollup-plugin-typescript2');
+const terser = require('@rollup/plugin-terser');
+const typescript = require('@rollup/plugin-typescript');
 const pkg = require('./package.json');
 const del = require('rollup-plugin-delete');
 
@@ -16,21 +13,24 @@ module.exports = {
     {
       file: pkg.main,
       format: 'cjs',
-      sourcemap: 'inline',
+      sourcemap: true,
+      sourcemapExcludeSources: false,
       plugins: [terser()],
       exports: 'auto',
     },
     {
       file: pkg.module,
       format: 'es',
-      sourcemap: 'inline',
+      sourcemap: true,
+      sourcemapExcludeSources: false,
       plugins: [terser()],
       exports: 'auto',
     },
     {
       file: 'dist/index.js',
       format: 'cjs',
-      sourcemap: 'inline',
+      sourcemap: true,
+      sourcemapExcludeSources: false,
       exports: 'auto',
     },
   ],
@@ -38,17 +38,10 @@ module.exports = {
     include: 'src/**',
   },
   plugins: [
-    external(),
-    postcss({
-      modules: true,
-    }),
-    // Allow json resolution
     json(),
-    // Compile TypeScript files
     typescript({
-      useTsconfigDeclarationDir: true,
-      exclude: ['**/__tests__/**', '*.spec.*', '*.test.*'],
-      clean: true,
+      // useTsconfigDeclarationDir: true,
+      // clean: true,
     }),
     // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
     commonjs(),
@@ -56,8 +49,7 @@ module.exports = {
     // which external modules to include in the bundle
     // https://github.com/rollup/rollup-plugin-node-resolve#usage
     resolve(),
-    // Resolve source maps to the original source
-    sourceMaps(),
+    // sourceMaps(), // Resolve source maps to the original source
     del({
       targets: 'dist/*',
       hook: 'buildStart',

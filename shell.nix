@@ -5,7 +5,7 @@ stdenv.mkDerivation {
 
   buildInputs = with pkgs; [
     git
-    nodejs-16_x
-    yarn
+    nodejs-18_x
+    npm
   ];
 }

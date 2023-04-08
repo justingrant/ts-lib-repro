@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES6",
     "module": "ESNext",
     "lib": [
       "ESNext",
@@ -9,6 +9,8 @@
     "declarationDir": "dist",
     "outDir": "dist",
     "sourceMap": true,
+    "inlineSources": true,
+    "declarationMap": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -20,9 +22,6 @@
   "exclude": [
     "node_modules",
     "dist",
-    "src/__tests__",
-    "**/*.test.tsx",
-    "**/*.spec.tsx",
   ],
   "include": [
     "src/**/*"
